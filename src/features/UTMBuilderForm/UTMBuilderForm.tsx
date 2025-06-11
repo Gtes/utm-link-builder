@@ -13,7 +13,7 @@ import {
 } from '@/features/UTMBuilderForm/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const ProfileForm = () => {
+const UTMBuilderForm = () => {
   const form = useForm<FormBuilderState>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
@@ -89,4 +89,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export default UTMBuilderForm;
