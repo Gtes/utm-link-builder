@@ -1,6 +1,7 @@
 'use client';
 
 import { Copy } from 'lucide-react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import InputField from '@/components/InputField/InputField';
@@ -11,9 +12,11 @@ import {
   type FormBuilderState,
   type UTMKeys,
 } from '@/features/UTMBuilderForm/schema';
+import { useUTMLinks } from '@/hooks/useUTMLinks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const UTMBuilderForm = () => {
+  const { addLink, links } = useUTMLinks();
   const form = useForm<FormBuilderState>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
@@ -28,6 +31,13 @@ const UTMBuilderForm = () => {
       },
     },
   });
+
+  const disableSubmit = useMemo(
+    () =>
+      !form.formState.isDirty ||
+      links.some((link) => link.id === form.watch('url')),
+    [form.watch('url'), links],
+  );
 
   const updateUrl = () => {
     const baseUrl = new URL(form.getValues('url') ?? '');
@@ -51,7 +61,7 @@ const UTMBuilderForm = () => {
   };
 
   const onSubmit = (values: FormBuilderState) => {
-    console.log(values);
+    addLink({ id: values.url });
   };
 
   return (
@@ -83,7 +93,9 @@ const UTMBuilderForm = () => {
             />
           ))}
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={disableSubmit}>
+          Submit
+        </Button>
       </form>
     </Form>
   );
