@@ -1,18 +1,30 @@
+import { Link, Outlet } from '@tanstack/react-router';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import UTMBuilderForm from '@/features/UTMBuilderForm/UTMBuilderForm';
+import useTab, { RouteTabs } from '@/hooks/useTabs';
 
 const Layout = () => {
+  const currentTab = useTab();
+
   return (
-    <Tabs defaultValue="account">
-      <TabsList>
-        <TabsTrigger value="builder">Builder</TabsTrigger>
-        <TabsTrigger value="saved">Saved</TabsTrigger>
-      </TabsList>
-      <TabsContent value="builder">
-        <UTMBuilderForm />
-      </TabsContent>
-      <TabsContent value="saved">Saved</TabsContent>
-    </Tabs>
+    <div className="container mx-auto p-4">
+      <h3 className="mb-6 text-2xl font-bold">UTM LINKS BUILDER</h3>
+
+      <Tabs value={currentTab}>
+        <TabsList>
+          <TabsTrigger value={RouteTabs.BUILDER} asChild>
+            <Link to="/builder">Builder</Link>
+          </TabsTrigger>
+          <TabsTrigger value={RouteTabs.SAVED} asChild>
+            <Link to="/saved">Saved</Link>
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={currentTab}>
+          <Outlet />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 };
 
