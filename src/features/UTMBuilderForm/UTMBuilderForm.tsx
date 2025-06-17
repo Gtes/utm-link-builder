@@ -69,15 +69,14 @@ const UTMBuilderForm = () => {
   const disableSubmit = useMemo(
     () =>
       !form.formState.isDirty ||
-      links.some((link) => link.id === form.watch('url')),
+      links.some((link) => link.id === form.watch('url')) ||
+      links.length >= 10,
     [form.watch('url'), links],
   );
 
   const updateUrl = () => {
     const baseUrl = new URL(form.getValues('url') ?? '');
     const UTMs = form.getValues('UTMs');
-
-    console.log('baseUrl', baseUrl);
 
     const newParams = new URLSearchParams(baseUrl.search);
 
@@ -93,8 +92,6 @@ const UTMBuilderForm = () => {
 
     newUrl.search = newParams.toString();
     newUrl.protocol = 'https:';
-
-    console.log('newUrl', newUrl);
 
     form.setValue('url', newUrl.toString());
   };
