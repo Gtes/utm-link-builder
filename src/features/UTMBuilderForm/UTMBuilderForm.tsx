@@ -1,5 +1,3 @@
-'use client';
-
 import { getRouteApi } from '@tanstack/react-router';
 import { Check, Copy } from 'lucide-react';
 import { useMemo } from 'react';
