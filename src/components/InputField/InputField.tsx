@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 
 type InputFiledProps<T extends FieldValues> = {
   name: Path<T>;
-  label: string;
+  label?: string;
   placeholder?: string;
   description?: string;
   control: Control<T>;
@@ -22,7 +22,7 @@ type InputFiledProps<T extends FieldValues> = {
 
 const InputFiled = <T extends FieldValues>({
   name,
-  label,
+  label = '',
   placeholder,
   description,
   control,
@@ -35,7 +35,7 @@ const InputFiled = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          {label ? <FormLabel>{label}</FormLabel> : null}
           <FormControl>
             <Input
               type={type}
